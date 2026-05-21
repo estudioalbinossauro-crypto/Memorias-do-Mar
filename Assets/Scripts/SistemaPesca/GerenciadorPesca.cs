@@ -141,11 +141,11 @@ public class GerenciadorPesca : MonoBehaviour
         AreaDePesca.jaRandomizou = false;
         if (peixeFisgado == "Tainha")
         {
-            Inventario.numeroTainhas++;
+            Inventario.peixesPescardos["Tainha"]++;
         }
         else if (peixeFisgado == "Bagre")
         {
-            Inventario.numeroBagres++;
+            Inventario.peixesPescardos["Bagre"]++;
         }
         
     }
