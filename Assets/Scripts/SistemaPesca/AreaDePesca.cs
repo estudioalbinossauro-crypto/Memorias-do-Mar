@@ -49,11 +49,14 @@ public class AreaDePesca : MonoBehaviour
                 miniGamePesca.SetActive(true);
                 GerenciadorPesca.peixeTaFisgado = true;
                 MiniTaSpawnado = true;
+                GerenciadorPesca.randomizadorRaridade = UnityEngine.Random.Range(1, 1001);
                 if (jaRandomizou == false)
                 {
                     GerenciadorPesca.ePraRandomizar = true;
                     jaRandomizou = true;
                 }
+
+                
 
             }
         }

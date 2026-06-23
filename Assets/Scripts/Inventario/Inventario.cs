@@ -16,7 +16,9 @@ public class Inventario : MonoBehaviour
     {
         { "Tainha", 0 },
         { "Bagre", 0 },
-        { "Robalo", 0 } // Para adicionar mais peixes, basta listar aqui!
+        { "Anchova", 0 },
+        { "Baiacu", 0 },
+        { "Lambari", 0 } // Para adicionar mais peixes, basta listar aqui!
     };
 
     void Start()
