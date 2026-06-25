@@ -97,22 +97,18 @@ public class GerenciadorPesca : MonoBehaviour
                 break;
 
             case int n when n >= 1 && n <= 500:
-                Debug.Log("Ficou entre 1 e 500");
                 raridadeEscolhida = "Comum";
                 break;
 
             case int n when n > 500 && n <= 750:
-                Debug.Log("FOi entre 500 e 725");
                 raridadeEscolhida = "Incomum";
                 break;
 
             case int n when n > 750 && n <= 875:
-                Debug.Log("ficou entre 750 e 875");
                 raridadeEscolhida = "Raro";
                 break;
 
             case int n when n > 875 && n <= 950:
-                Debug.Log("ficou entre 875 e 950");
                 raridadeEscolhida = "UltraRaro";
                 break;
 
@@ -170,9 +166,125 @@ public class GerenciadorPesca : MonoBehaviour
                     default:
                         Debug.Log("Erro");
                         break;
+                        //}     
+                }
+            }
+            else if (raridadeEscolhida == "Incomum")
+            {
+                randomizadorPeixe = Random.Range(1, 3);
+                switch (randomizadorPeixe)
+                {
+                    case int n when n == 1:
+                        peixeFisgado = "PeixeIncomum";
+                        ePraRandomizar = false;
+                        break;
+                    case int n when n == 2:
+                        peixeFisgado = "PeixeIncomum2";
+                        ePraRandomizar = false;
+                        break;
+                    default:
+                        Debug.Log("Erro");
+                        break;
+                        //}
+                }
+            }
+            else if (raridadeEscolhida == "Raro")
+            {
+                randomizadorPeixe = Random.Range(1, 3);
+                switch (randomizadorPeixe)
+                {
+                    case int n when n == 1:
+                        peixeFisgado = "PeixeRaro";
+                        ePraRandomizar = false;
+                        break;
+                    case int n when n == 2:
+                        peixeFisgado = "PeixeRaro2";
+                        ePraRandomizar = false;
+                        break;
+                    default:
+                        Debug.Log("Erro");
+                        break;
+                        //}
+                }
+            }
+            else if (raridadeEscolhida == "UltraRaro")
+            {
+                randomizadorPeixe = Random.Range(1, 3);
+                switch (randomizadorPeixe)
+                {
+                    case int n when n == 1:
+                        peixeFisgado = "PeixeUltraRaro";
+                        ePraRandomizar = false;
+                        break;
+                    case int n when n == 2:
+                        peixeFisgado = "PeixeUltraRaro2";
+                        ePraRandomizar = false;
+                        break;
+                    default:
+                        Debug.Log("Erro");
+                        break;
+                        //}
+                }
+            }
+            else if (raridadeEscolhida == "Epico")
+            {
+                randomizadorPeixe = Random.Range(1, 3);
+                switch (randomizadorPeixe)
+                {
+                    case int n when n == 1:
+                        peixeFisgado = "PeixeEpico";
+                        ePraRandomizar = false;
+                        break;
+                    case int n when n == 2:
+                        peixeFisgado = "PeixeEpico2";
+                        ePraRandomizar = false;
+                        break;
+                    default:
+                        Debug.Log("Erro");
+                        break;
+                        //}
+                }
+            }
+            else if (raridadeEscolhida == "Lendario")
+            {
+                randomizadorPeixe = Random.Range(1, 3);
+                switch (randomizadorPeixe)
+                {
+                    case int n when n == 1:
+                        peixeFisgado = "PeixeLendario";
+                        ePraRandomizar = false;
+                        break;
+                    case int n when n == 2:
+                        peixeFisgado = "PeixeLendario2";
+                        ePraRandomizar = false;
+                        break;
+                    default:
+                        Debug.Log("Erro");
+                        break;
+                        //}
+                }
+            }
+            else if (raridadeEscolhida == "Mitico")
+            {
+                randomizadorPeixe = Random.Range(1, 3);
+                switch (randomizadorPeixe)
+                {
+                    case int n when n == 1:
+                        peixeFisgado = "PeixeMitico";
+                        ePraRandomizar = false;
+                        break;
+                    case int n when n == 2:
+                        peixeFisgado = "PeixeMitico2";
+                        ePraRandomizar = false;
+                        break;
+                    default:
+                        Debug.Log("Erro");
+                        break;
+                        //}
                 }
             }
         }
+        
     }
 
     void AveriguadorDeTaNaVerde()
@@ -222,22 +334,27 @@ public class GerenciadorPesca : MonoBehaviour
         if (peixeFisgado == "Tainha")
         {
             Inventario.peixesPescardos["Tainha"]++;
+            peixeFisgado = null;
         }
         else if (peixeFisgado == "Bagre")
         {
             Inventario.peixesPescardos["Bagre"]++;
+            peixeFisgado = null;
         }
         else if (peixeFisgado == "Anchova")
         {
             Inventario.peixesPescardos["Anchova"]++;
+            peixeFisgado = null;
         }
         else if (peixeFisgado == "Baiacu")
         {
             Inventario.peixesPescardos["Baiacu"]++;
+            peixeFisgado = null;
         }
         else if (peixeFisgado == "Lambari")
         {
             Inventario.peixesPescardos["Lambari"]++;
+            peixeFisgado = null;
         }
         
     }
