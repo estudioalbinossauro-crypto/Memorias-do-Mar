@@ -10,9 +10,8 @@ public class Inventario : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textoInventario;
     [SerializeField] private bool invAberto;
 
-    // Dicionário estático: armazena o [Nome do Peixe] e a [Quantidade]
-    // Outros scripts podem acessar isso diretamente!
-    public static Dictionary<string, int> peixesPescardos = new Dictionary<string, int>()
+    
+    public static Dictionary<string, int> peixesPescarlos = new Dictionary<string, int>()
     {
         { "Tainha", 0 },
         { "Bagre", 0 },
@@ -76,7 +75,7 @@ public class Inventario : MonoBehaviour
         int totalPeixes = 0;
 
         // Passa por cada peixe registrado no dicionário
-        foreach (KeyValuePair<string, int> peixe in peixesPescardos)
+        foreach (KeyValuePair<string, int> peixe in peixesPescarlos)
         {
             if (peixe.Value > 0)
             {

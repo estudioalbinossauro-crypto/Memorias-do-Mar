@@ -333,27 +333,27 @@ public class GerenciadorPesca : MonoBehaviour
         //Envia o peixe pescado pro inventario.
         if (peixeFisgado == "Tainha")
         {
-            Inventario.peixesPescardos["Tainha"]++;
+            Inventario.peixesPescarlos["Tainha"]++;
             peixeFisgado = null;
         }
         else if (peixeFisgado == "Bagre")
         {
-            Inventario.peixesPescardos["Bagre"]++;
+            Inventario.peixesPescarlos["Bagre"]++;
             peixeFisgado = null;
         }
         else if (peixeFisgado == "Anchova")
         {
-            Inventario.peixesPescardos["Anchova"]++;
+            Inventario.peixesPescarlos["Anchova"]++;
             peixeFisgado = null;
         }
         else if (peixeFisgado == "Baiacu")
         {
-            Inventario.peixesPescardos["Baiacu"]++;
+            Inventario.peixesPescarlos["Baiacu"]++;
             peixeFisgado = null;
         }
         else if (peixeFisgado == "Lambari")
         {
-            Inventario.peixesPescardos["Lambari"]++;
+            Inventario.peixesPescarlos["Lambari"]++;
             peixeFisgado = null;
         }
         

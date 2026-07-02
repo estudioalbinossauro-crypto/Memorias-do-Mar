@@ -1,92 +1,102 @@
 using UnityEngine;
-
+ 
 [RequireComponent(typeof(Rigidbody))]
 public class BarcoController : MonoBehaviour
 {
-    [Header("Configurações de Movimento")]
-    [SerializeField] private float forcaMotor = 20f;
-    [SerializeField] private float vMax = 15f;
-    [SerializeField] private float torqueGiro = 2f;
-    [SerializeField] private float arrastoLinear = 0.5f;
-    [SerializeField] private float arrastoAngular = 0.8f;
-
-    [Header("Câmera do Barco (Terceira Pessoa)")]
-    [SerializeField] private Transform cameraTransform; // Arraste a Main Camera aqui
-    [SerializeField] private Vector3 offsetCamera = new Vector3(0, 5, -10);
-    [SerializeField] private float suavidadeCamera = 0.125f;
-
-    private Rigidbody rb;
-    private float inputVertical;
-    private float inputHorizontal;
-
+    [Header("Movimento")]
+    [SerializeField] float forcaMotor = 500f;
+    [SerializeField] float forcaRe = 250f;
+    [SerializeField] float velocidadeMaxima = 15f;
+    [SerializeField] float velocidadeMaximaRe = 5f;
+ 
+    [Header("Viragem")]
+    [SerializeField] float velocidadeVirada = 80f;
+    [SerializeField] float velocidadeMinimaPraVirar = 0.5f;
+ 
+    [Header("Arrasto")]
+    [SerializeField] float arrastoLinear = 0.5f;
+    [SerializeField] float arrastoAngular = 5f;
+ 
+    [Header("Referências")]
+    [SerializeField] Transform pontoSaida;
+    [SerializeField] Transform pontoCameraBarco;
+ 
+    public Transform PontoSaida => pontoSaida;
+    public Transform PontoCameraBarco => pontoCameraBarco;
+ 
+    Rigidbody rb;
+    float inputVertical;
+    float inputHorizontal;
+ 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         rb.linearDamping = arrastoLinear;
         rb.angularDamping = arrastoAngular;
+ 
+        // Impede que objetos filhos (ex: player sentado) desloquem o centro de massa
+        rb.automaticCenterOfMass = false;
+        rb.centerOfMass = Vector3.zero;
+ 
+        rb.constraints = RigidbodyConstraints.FreezeRotationX
+                       | RigidbodyConstraints.FreezeRotationZ;
     }
-    void OnEnable()
-    {
-        // Se a câmera não foi definida, tenta pegar a Main Camera
-        if (cameraTransform == null) cameraTransform = Camera.main.transform;
-    }
-    void OnDisable()
-    {
-        // Reseta inputs e para o barco imediatamente ao sair
-        inputVertical = 0;
-        inputHorizontal = 0;
-        if (rb != null) rb.linearVelocity = Vector3.zero;
-    }
+ 
     void Update()
     {
-        inputVertical = Input.GetAxis("Vertical");
+        inputVertical   = Input.GetAxis("Vertical");
         inputHorizontal = Input.GetAxis("Horizontal");
     }
+ 
     void FixedUpdate()
     {
-        MoverBarco();
-        GirarBarco();
+        Mover();
+        Virar();
     }
-    void LateUpdate()
+ 
+    void Mover()
     {
-        // SÓ gerencia a câmera se o script estiver ativo (player dentro)
-        if (cameraTransform != null && enabled) 
-        {
-            GerenciarCamera();
-        }
+        if (rb.linearVelocity.magnitude >= velocidadeMaxima && inputVertical > 0)
+            return;
+        if (rb.linearVelocity.magnitude >= velocidadeMaximaRe && inputVertical < 0)
+            return;
+ 
+        Vector3 direcaoHorizontal = Vector3.ProjectOnPlane(transform.forward, Vector3.up).normalized;
+ 
+        float forca = inputVertical > 0
+            ? inputVertical * forcaMotor
+            : inputVertical * forcaRe;
+ 
+        rb.AddForce(direcaoHorizontal * forca, ForceMode.Force);
     }
-    void MoverBarco()
+ 
+    void Virar()
     {
-        if (Mathf.Abs(inputVertical) > 0.01f)
-        {
-            rb.AddForce(transform.forward * inputVertical * forcaMotor, ForceMode.Acceleration);
-        }
-
-        // Clamp de velocidade eficiente
-        if (rb.linearVelocity.sqrMagnitude > vMax * vMax)
-        {
-            rb.linearVelocity = rb.linearVelocity.normalized * vMax;
-        }
+        Vector3 velocidadeHorizontal = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+        bool estaSeMovendo = velocidadeHorizontal.magnitude > velocidadeMinimaPraVirar;
+ 
+        if (!estaSeMovendo || inputHorizontal == 0f)
+            return;
+ 
+        float direcao = inputVertical >= 0 ? 1f : -1f;
+ 
+        float rotacao = inputHorizontal * velocidadeVirada * direcao * Time.fixedDeltaTime;
+        Quaternion deltaRotacao = Quaternion.Euler(0f, rotacao, 0f);
+        rb.MoveRotation(rb.rotation * deltaRotacao);
     }
-    void GirarBarco()
+ 
+    // Reforça o centro de massa ao entrar/sair do barco
+    public void ResetarCenterOfMass()
     {
-        // Evita girar parado
-        float fatorVelocidade = Mathf.Clamp01(rb.linearVelocity.magnitude / (vMax * 0.2f));
-        float forcaFinalGiro = inputHorizontal * torqueGiro * fatorVelocidade;
-
-        rb.AddTorque(Vector3.up * forcaFinalGiro, ForceMode.Acceleration);
+        rb.centerOfMass = Vector3.zero;
     }
-
-    void GerenciarCamera()
+ 
+#if UNITY_EDITOR
+    void OnDrawGizmosSelected()
     {
-        // Move a câmera para perto do barco temporariamente
-        if (cameraTransform.parent != transform)
-        {
-             cameraTransform.SetParent(transform);
-        }
-
-        Vector3 posicaoDesejada = transform.TransformPoint(offsetCamera);
-        cameraTransform.position = Vector3.Lerp(cameraTransform.position, posicaoDesejada, suavidadeCamera);
-        cameraTransform.LookAt(transform.position + Vector3.up * 2f);
+        if (rb == null) return;
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawRay(transform.position, rb.linearVelocity);
     }
+#endif
 }
