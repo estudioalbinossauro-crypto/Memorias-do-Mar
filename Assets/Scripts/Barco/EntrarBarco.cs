@@ -17,6 +17,8 @@ public class PlayerRaycast : MonoBehaviour
     private MovPlayer scriptMovPlayer;
     private MonoBehaviour scriptTravaCamera;
     private Rigidbody playerRb;
+    [SerializeField] private Transform playerTransform;
+
  
     void Awake()
     {
@@ -91,6 +93,8 @@ public class PlayerRaycast : MonoBehaviour
  
         barcoAtual.enabled = true;
         barcoAtual.ResetarCenterOfMass(); // Garante CoM no centro após parenting
+        
+        playerTransform.localEulerAngles = new Vector3(180f, -90f, -90f);
     }
  
     void SairDoBarco()

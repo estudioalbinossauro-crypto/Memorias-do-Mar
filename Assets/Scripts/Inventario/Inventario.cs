@@ -17,12 +17,12 @@ public class Inventario : MonoBehaviour
         { "Bagre", 0 },
         { "Anchova", 0 },
         { "Baiacu", 0 },
-        { "Lambari", 0 } // Para adicionar mais peixes, basta listar aqui!
+        { "Lambari", 0 } 
     };
 
     void Start()
     {
-        // Garante que o inventário comece fechado
+        
         painelInventario.SetActive(false);
         invAberto = false;
     }
@@ -31,7 +31,7 @@ public class Inventario : MonoBehaviour
     {
         GerenciarInputInventario();
         
-        // Otimização: Só atualiza o texto se o inventário de fato estiver aberto!
+        
         if (invAberto)
         {
             GeraTextoInventario();
@@ -74,7 +74,7 @@ public class Inventario : MonoBehaviour
         StringBuilder sb = new StringBuilder();
         int totalPeixes = 0;
 
-        // Passa por cada peixe registrado no dicionário
+        
         foreach (KeyValuePair<string, int> peixe in peixesPescarlos)
         {
             if (peixe.Value > 0)
@@ -84,7 +84,7 @@ public class Inventario : MonoBehaviour
             }
         }
 
-        // Se após varrer o dicionário nenhum peixe foi encontrado
+        
         if (totalPeixes == 0)
             textoInventario.text = "Nenhum peixe no inventário.";
         else
