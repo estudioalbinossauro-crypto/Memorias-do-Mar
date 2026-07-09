@@ -1,3 +1,5 @@
+using System.Collections;
+using NUnit.Framework.Constraints;
 using UnityEditor.ShaderGraph;
 using UnityEngine;
 
@@ -13,6 +15,12 @@ public class GerenciadorPesca : MonoBehaviour
 
     public string peixeFisgado;
     private int randomizadorPeixe;
+    static public int randomizadorRaridade = 0;
+    public string raridadeEscolhida;
+
+
+
+    public int xpDoPlayer;
 
 
 
@@ -81,20 +89,202 @@ public class GerenciadorPesca : MonoBehaviour
 
     void EscolherPeixe()
     {
+        //Seleção da raridade de acordo com o número gerado. OOOHHHH YEEAAAAHH BABYYY!!!!
+        switch (randomizadorRaridade)
+        {
+            case int n when n == 0:
+                //só para 0 nao ser igual a erro
+                break;
+
+            case int n when n >= 1 && n <= 500:
+                raridadeEscolhida = "Comum";
+                break;
+
+            case int n when n > 500 && n <= 750:
+                raridadeEscolhida = "Incomum";
+                break;
+
+            case int n when n > 750 && n <= 875:
+                raridadeEscolhida = "Raro";
+                break;
+
+            case int n when n > 875 && n <= 950:
+                raridadeEscolhida = "UltraRaro";
+                break;
+
+            case int n when n > 950 && n <= 975:
+                Debug.Log("ficou entre 950 e 975");
+                raridadeEscolhida = "Epico";
+                break;
+
+            case int n when n > 975 && n <= 990:
+                Debug.Log("ficou entre 975 e 990");
+                raridadeEscolhida = "Lendario";
+                break;
+
+            case int n when n > 990 && n <= 1000:
+                Debug.Log("ficou entre 990 e 1000");
+                raridadeEscolhida = "Mitico";
+                break;
+
+            default:
+                Debug.Log("ERROOOO");
+                break;
+          //}
+        }
+
+
+        //Randomiza o Peixe de acordo com a raridade.
         if (ePraRandomizar == true)
         {
-            randomizadorPeixe = Random.Range(0, 2);
-            if (randomizadorPeixe == 0)
+            if (raridadeEscolhida == "Comum")
             {
-                peixeFisgado = "Tainha";
-                ePraRandomizar = false;
+                randomizadorPeixe = Random.Range(1, 6);
+                switch (randomizadorPeixe)
+                {
+                    case int n when n == 1:
+                        peixeFisgado = "Tainha";
+                        ePraRandomizar = false;
+                        break;
+                    case int n when n == 2:
+                        peixeFisgado = "Bagre";
+                        ePraRandomizar = false;
+                        break;
+                    case int n when n == 3:
+                        peixeFisgado = "Anchova";
+                        ePraRandomizar = false;
+                        break;
+                    case int n when n == 4:
+                        peixeFisgado = "Baiacu";
+                        ePraRandomizar = false;
+                        break;
+                    case int n when n == 5:
+                        peixeFisgado = "Lambari";
+                        ePraRandomizar = false;
+                        break;
+
+                    default:
+                        Debug.Log("Erro");
+                        break;
+                        //}     
+                }
             }
-            else if (randomizadorPeixe == 1)
+            else if (raridadeEscolhida == "Incomum")
             {
-                peixeFisgado = "Bagre";
-                ePraRandomizar = false;
+                randomizadorPeixe = Random.Range(1, 3);
+                switch (randomizadorPeixe)
+                {
+                    case int n when n == 1:
+                        peixeFisgado = "PeixeIncomum";
+                        ePraRandomizar = false;
+                        break;
+                    case int n when n == 2:
+                        peixeFisgado = "PeixeIncomum2";
+                        ePraRandomizar = false;
+                        break;
+                    default:
+                        Debug.Log("Erro");
+                        break;
+                        //}
+                }
+            }
+            else if (raridadeEscolhida == "Raro")
+            {
+                randomizadorPeixe = Random.Range(1, 3);
+                switch (randomizadorPeixe)
+                {
+                    case int n when n == 1:
+                        peixeFisgado = "PeixeRaro";
+                        ePraRandomizar = false;
+                        break;
+                    case int n when n == 2:
+                        peixeFisgado = "PeixeRaro2";
+                        ePraRandomizar = false;
+                        break;
+                    default:
+                        Debug.Log("Erro");
+                        break;
+                        //}
+                }
+            }
+            else if (raridadeEscolhida == "UltraRaro")
+            {
+                randomizadorPeixe = Random.Range(1, 3);
+                switch (randomizadorPeixe)
+                {
+                    case int n when n == 1:
+                        peixeFisgado = "PeixeUltraRaro";
+                        ePraRandomizar = false;
+                        break;
+                    case int n when n == 2:
+                        peixeFisgado = "PeixeUltraRaro2";
+                        ePraRandomizar = false;
+                        break;
+                    default:
+                        Debug.Log("Erro");
+                        break;
+                        //}
+                }
+            }
+            else if (raridadeEscolhida == "Epico")
+            {
+                randomizadorPeixe = Random.Range(1, 3);
+                switch (randomizadorPeixe)
+                {
+                    case int n when n == 1:
+                        peixeFisgado = "PeixeEpico";
+                        ePraRandomizar = false;
+                        break;
+                    case int n when n == 2:
+                        peixeFisgado = "PeixeEpico2";
+                        ePraRandomizar = false;
+                        break;
+                    default:
+                        Debug.Log("Erro");
+                        break;
+                        //}
+                }
+            }
+            else if (raridadeEscolhida == "Lendario")
+            {
+                randomizadorPeixe = Random.Range(1, 3);
+                switch (randomizadorPeixe)
+                {
+                    case int n when n == 1:
+                        peixeFisgado = "PeixeLendario";
+                        ePraRandomizar = false;
+                        break;
+                    case int n when n == 2:
+                        peixeFisgado = "PeixeLendario2";
+                        ePraRandomizar = false;
+                        break;
+                    default:
+                        Debug.Log("Erro");
+                        break;
+                        //}
+                }
+            }
+            else if (raridadeEscolhida == "Mitico")
+            {
+                randomizadorPeixe = Random.Range(1, 3);
+                switch (randomizadorPeixe)
+                {
+                    case int n when n == 1:
+                        peixeFisgado = "PeixeMitico";
+                        ePraRandomizar = false;
+                        break;
+                    case int n when n == 2:
+                        peixeFisgado = "PeixeMitico2";
+                        ePraRandomizar = false;
+                        break;
+                    default:
+                        Debug.Log("Erro");
+                        break;
+                        //}
+                }
             }
         }
+        
     }
 
     void AveriguadorDeTaNaVerde()
@@ -139,13 +329,32 @@ public class GerenciadorPesca : MonoBehaviour
         quantidadeDeFisgadas = 1;
         peixeTaFisgado = false;
         AreaDePesca.jaRandomizou = false;
+
+        //Envia o peixe pescado pro inventario.
         if (peixeFisgado == "Tainha")
         {
-            Inventario.numeroTainhas++;
+            Inventario.peixesPescarlos["Tainha"]++;
+            peixeFisgado = null;
         }
         else if (peixeFisgado == "Bagre")
         {
-            Inventario.numeroBagres++;
+            Inventario.peixesPescarlos["Bagre"]++;
+            peixeFisgado = null;
+        }
+        else if (peixeFisgado == "Anchova")
+        {
+            Inventario.peixesPescarlos["Anchova"]++;
+            peixeFisgado = null;
+        }
+        else if (peixeFisgado == "Baiacu")
+        {
+            Inventario.peixesPescarlos["Baiacu"]++;
+            peixeFisgado = null;
+        }
+        else if (peixeFisgado == "Lambari")
+        {
+            Inventario.peixesPescarlos["Lambari"]++;
+            peixeFisgado = null;
         }
         
     }

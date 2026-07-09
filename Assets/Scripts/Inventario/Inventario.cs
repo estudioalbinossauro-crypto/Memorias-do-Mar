@@ -1,33 +1,64 @@
+using System.Collections.Generic;
+using System.Text;
 using TMPro;
-using UnityEditor.Search;
 using UnityEngine;
 
 public class Inventario : MonoBehaviour
 {
+    [Header("Configurações de UI")]
     public GameObject painelInventario;
-    [SerializeField] TextMeshProUGUI textoInventario;
+    [SerializeField] private TextMeshProUGUI textoInventario;
     [SerializeField] private bool invAberto;
-    public static int numeroTainhas;
-    public static int numeroBagres;
+
+    
+    public static Dictionary<string, int> peixesPescarlos = new Dictionary<string, int>()
+    {
+        { "Tainha", 0 },
+        { "Bagre", 0 },
+        { "Anchova", 0 },
+        { "Baiacu", 0 },
+        { "Lambari", 0 } 
+    };
 
     void Start()
     {
-
+        
+        painelInventario.SetActive(false);
+        invAberto = false;
     }
+
     void Update()
     {
-        AbrirInventario();
-        GeraTextoInventario();
+        GerenciarInputInventario();
+        
+        
+        if (invAberto)
+        {
+            GeraTextoInventario();
+        }
     }
+
+    void GerenciarInputInventario()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (!invAberto)
+            {
+                AbrirInventario();
+            }
+            else
+            {
+                FecharInventario();
+            }
+        }
+    }
+
     void AbrirInventario()
     {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            painelInventario.SetActive(true);
-            Cursor.lockState = CursorLockMode.None;
-            invAberto = true;
-            Debug.Log("abriu");
-        }
+        painelInventario.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        invAberto = true;
+        Debug.Log("Inventário Aberto");
     }
 
     public void FecharInventario()
@@ -35,22 +66,28 @@ public class Inventario : MonoBehaviour
         painelInventario.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         invAberto = false;
-        Debug.Log("fechou");
+        Debug.Log("Inventário Fechado");
     }
 
     void GeraTextoInventario()
     {
-        if (numeroBagres == 0 && numeroTainhas == 0)
-        {
-            textoInventario.text = "Nenhum peixe no inventario";
-        }
-        else if (numeroBagres != 0 || numeroTainhas != 0)
-        {
-            textoInventario.text = numeroTainhas.ToString() + " : Tainhas Capturados /n " + numeroTainhas.ToString() + " : Tainhas Capturados";
-        }
-    }
-    void PeixesPescados()
-    {
+        StringBuilder sb = new StringBuilder();
+        int totalPeixes = 0;
+
         
+        foreach (KeyValuePair<string, int> peixe in peixesPescarlos)
+        {
+            if (peixe.Value > 0)
+            {
+                sb.AppendLine($"{peixe.Value} {peixe.Key}(s) capturado(s)");
+                totalPeixes += peixe.Value;
+            }
+        }
+
+        
+        if (totalPeixes == 0)
+            textoInventario.text = "Nenhum peixe no inventário.";
+        else
+            textoInventario.text = sb.ToString().TrimEnd();
     }
 }
