@@ -74,7 +74,7 @@ public class Inventario : MonoBehaviour
         StringBuilder sb = new StringBuilder();
         int totalPeixes = 0;
 
-        
+
         foreach (KeyValuePair<string, int> peixe in peixesPescarlos)
         {
             if (peixe.Value > 0)
@@ -84,10 +84,14 @@ public class Inventario : MonoBehaviour
             }
         }
 
-        
+
         if (totalPeixes == 0)
+        {
             textoInventario.text = "Nenhum peixe no inventário.";
+        }
         else
+        {
             textoInventario.text = sb.ToString().TrimEnd();
+        }
     }
 }
